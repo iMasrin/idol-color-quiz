@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" >
+  <title>アイドルって200色あんねん</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="settingsModal">
+	  <div id="settingsContent">
+	    <h2>アイドルって200色あんねん</h2>
+	    <label>ブランド:
+	      <select id="genreSelect">
+	      	<option value="All">全て</option>
+	        <option value="THE IDOLM@STER">THE IDOLM@STER</option>
+	        <option value="シンデレラガールズ">シンデレラガールズ</option>
+	        <option value="ミリオンライブ！">ミリオンライブ！</option>
+	        <option value="SideM">SideM</option>
+	        <option value="シャイニーカラーズ">シャイニーカラーズ</option>
+	        <option value="学園アイドルマスター">学園アイドルマスター</option>
+	      </select>
+	    </label>
+	    <br><br>
+	    <label>難易度:
+	      <select id="difficultySelect">
+	        <option value="EASY">EASY</option>
+	        <option value="NORMAL">NORMAL</option>
+	        <option value="HARD">HARD</option>
+	      </select>
+	    </label>
+	    <p id="difficultyDescription" style="font-size:1rem; color:#000; margin-top:8px;">
+	  		４択問題です。選択したブランドからランダムで候補が選ばれます。
+		</p>
+	    <br><br>
+	    <label>モード:
+	      <select id="modeSelect">
+	        <option value="endless">エンドレス</option>
+	        <option value="10">10問チャレンジ</option>
+	      </select>
+	    </label>
+	    <br><br>
+	    <button id="startButton">スタート</button>
+	    <br>
+	    <button id="policyButton" class="sub-button">利用規約・ポリシー</button>
+	</div>
+	  </div>
+	</div>
+
+	<div id="policyModal" class="modal hidden">
+	  <div class="modal-content">
+	    <h2>利用規約・ポリシー</h2>
+	    <p>
+	      本ゲーム「アイドルって200色あんねん」は、個人が制作した非公式のファンコンテンツです。<br>
+	      バンダイナムコエンターテインメント、アイドルマスター運営元とは一切関係ありません。
+	    </p>
+
+	    <h3>著作権について</h3>
+	    <ul>
+	      「アイドルマスター」シリーズおよび登場キャラクターに関する著作権・商標権は、
+	          株式会社バンダイナムコエンターテインメントに帰属します。<br>
+	      本ゲームにおけるキャラクター名・ブランド名は、作品紹介のために引用しています。
+	    </ul>
+
+	    <h3>利用について</h3>
+	    <ul>
+	      本ゲームは無償で公開されており、個人の娯楽目的で自由にプレイできます。
+	      商用利用や二次配布は禁止とします。
+	    </ul>
+
+	    <h3>免責事項</h3>
+	    <p>
+	      本ゲームの利用によって発生したいかなる損害についても、製作者は一切の責任を負いません。
+	    </p>
+
+	    <button id="closePolicy">閉じる</button>
+	  </div>
+	</div>
+
+	<div id="gameUI">
+	  <center><h2 id="questionCounter"></h2></center>
+	  <div id="colorBox" style="width:200px;height:200px;margin:auto;border:1px solid #000;"></div>
+	  <div id="answerArea"></div>
+	  <center><h2 id="result"></h2></center>
+	  <div id="similarIdols"></div>
+	  <br>
+	  <button id="nextButton" style="display: block;margin: 20px auto;">次の問題</button>
+	  <br><br>
+	  <button id="backButton" style="display: block;margin: 20px auto;">設定に戻る</button>
+	</div>
+
+
+	<div id="confirmModal" class="modal hidden">
+	  <div class="modal-content">
+	    <h2>設定に戻りますか？</h2>
+	    <p>現在の進行状況は失われます。</p>
+	    <div class="modal-buttons">
+	      <button id="confirmYes" class="btn confirm">はい</button>
+	      <button id="confirmNo" class="btn cancel">いいえ</button>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- 10問チャレンジ終了モーダル -->
+	<div id="endModal" class="modal hidden">
+	  <div class="modal-content end-modal">
+	    <h2>🎉 10問チャレンジ終了！</h2>
+	    <p id="endScore"></p>
+	    <p id="endSettings"></p>
+	    <div class="modal-buttons">
+	      <button id="oneMoreChallenge">もう一度挑戦</button>
+	      <button id="backSettings">設定に戻る</button>
+	    </div>
+	  </div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>
