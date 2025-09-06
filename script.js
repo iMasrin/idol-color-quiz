@@ -58,6 +58,7 @@ document.getElementById("startButton").addEventListener("click", () => {
   maxQuestions = currentMode === "10" ? 10 : Infinity;
   gameOver = false;
 
+  document.getElementById("nextButton").textContent = "次の問題";
   document.getElementById("settingsModal").style.display = "none";
   document.getElementById("gameUI").style.display = "block";
 
@@ -120,9 +121,20 @@ const difficultyDescriptions = {
   HARD: "記述問題です。アイドルの名前を直接入力してください。"
 };
 
+const modeDescriptions = {
+  10: "選択したブランド・難易度で１０問出題されます。目指せ全問正解！",
+  master: "１回でも間違えるとゲームオーバーです。目指せ最高記録！",
+  endless: "エンドレスに出題されます。満足するまでお楽しみください。"
+};
+
 document.getElementById("difficultySelect").addEventListener("change", (e) => {
   const desc = difficultyDescriptions[e.target.value];
   document.getElementById("difficultyDescription").textContent = desc;
+});
+
+document.getElementById("modeSelect").addEventListener("change", (e) => {
+  const desc = modeDescriptions[e.target.value];
+  document.getElementById("modeDescription").textContent = desc;
 });
 
 function openSettings() {
