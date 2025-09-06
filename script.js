@@ -56,6 +56,7 @@ document.getElementById("startButton").addEventListener("click", () => {
   questionCount = 0;
   recentQuestions = [];
   maxQuestions = currentMode === "10" ? 10 : Infinity;
+  gameOver = false;
 
   document.getElementById("settingsModal").style.display = "none";
   document.getElementById("gameUI").style.display = "block";
