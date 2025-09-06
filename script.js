@@ -2,13 +2,13 @@
 let idols = [];
 let currentGenre = "";
 let currentDifficulty = "EASY";
-let currentMode = "endless";
+let currentMode = "10";
 let currentIdol = null;
 let recentQuestions = [];
 let questionCount = 0;
 let correctCount = 0;
 let maxQuestions = Infinity;
-let currentChoices = [];
+let gameOver = false;  // M@STERモードのゲームオーバーフラグ
 
 // CSV読み込み
 fetch("idols.csv")
@@ -17,7 +17,8 @@ fetch("idols.csv")
 
 function parseCSV(text) {
   const lines = text.trim().split("\n");
-  let rawIdols = lines.map(line => {
+  
+  let rawIdols = lines.slice(1).map(line => {
     const cols = line.split(",");
     return {
       nameKanji: cols[0]?.trim(),
@@ -103,7 +104,9 @@ document.getElementById("oneMoreChallenge").addEventListener("click", () => {
   questionCount = 0;
   recentQuestions = [];
   maxQuestions = currentMode === "10" ? 10 : Infinity;
+  gameOver = false;
 
+  document.getElementById("nextButton").textContent = "次の問題";
   document.getElementById("settingsModal").style.display = "none";
   document.getElementById("gameUI").style.display = "block";
 
@@ -141,7 +144,7 @@ closePolicy.addEventListener("click", () => {
 // 問題選択
 function pickRandomIdol() {
   
-    console.log(currentGenre);
+  if (currentMode === "master" && gameOver) return; 
   
   let candidates = (currentGenre === "All") ? idols : idols.filter(i => i.genre === currentGenre);
   if (candidates.length === 0) {
@@ -230,7 +233,7 @@ function generateChoices() {
   
   currentChoices = choices;
   
-  //console.log(currentChoices);
+  console.log(currentChoices);
   return shuffleArray(choices.filter(c => c && c.nameKanji)); // ← null除去
 }
 
@@ -283,6 +286,13 @@ function checkAnswer() {
   } else {
     area.textContent = `不正解！ 正解は ${displayName(currentIdol)} (#${currentIdol.color})`;
     showSimilarIdols();
+    if (currentMode === "master") {
+    	gameOver = true;
+	}
+  }
+  
+  if(currentMode === "master" || questionCount >= maxQuestions){
+  	document.getElementById("nextButton").textContent = "結果発表";
   }
   document.getElementById("nextButton").style.display = "block";
 }
@@ -298,7 +308,15 @@ function checkChoice(choice) {
   } else {
     area.textContent = `不正解！ 正解は ${displayName(currentIdol)} (#${currentIdol.color})`;
     showChoicesIdols();
+    if (currentMode === "master") {
+    	gameOver = true;
+	}
   }
+  
+  if(currentMode === "master" || questionCount >= maxQuestions){
+  	document.getElementById("nextButton").textContent = "結果発表";
+  }
+  
   document.getElementById("nextButton").style.display = "block";
   document.getElementById("answerArea").innerHTML = "";
 }
@@ -311,6 +329,12 @@ document.getElementById("nextButton").addEventListener("click", () => {
     //document.getElementById("settingsModal").style.display = "flex";
     return;
   }
+  
+  if (currentMode === "master" && gameOver){
+  	finishChallenge();
+  	return;
+  }
+  
   pickRandomIdol();
 });
 
@@ -396,8 +420,10 @@ function displayName(idol) {
 function finishChallenge() {
   const score = correctCount; // 正解数
   const total = 10;
-
-  if (score >= 8) {
+  
+  if (currentMode === "master" && gameOver) {
+    document.getElementById("endScore").textContent = `連続正解数: ${score}問`;
+  } else if(currentMode === "10" && score >= 8) {
   	document.getElementById("endScore").textContent = `あなたのスコア: ${score} / ${total} お見事！`;
   } else {
   	document.getElementById("endScore").textContent = `あなたのスコア: ${score} / ${total}`;
